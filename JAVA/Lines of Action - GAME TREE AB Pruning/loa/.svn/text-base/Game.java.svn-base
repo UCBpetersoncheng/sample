@@ -1,0 +1,57 @@
+// Remove all comments that begin with //, and replace appropriately.
+// Feel free to modify ANYTHING in this file.
+
+package loa;
+
+import java.util.Random;
+
+/** Represents one game of Lines of Action.
+ *  @author */
+class Game {
+
+    /** A new Game between NUMHUMAN humans and 2-NUMHUMAN AIs.  SIDE0
+     *  indicates which side the first player (known as ``you'') is
+     *  playing.  SEED is a random seed for random-number generation.
+     *  TIME is the time limit each side has to make its moves (in seconds).
+     */
+    Game(int numHuman, Side side0, long seed, int time) {
+        _randomSource = new Random(seed);
+        // FILL IN
+    }
+
+    /** Return the current board. */
+    Board getBoard() {
+        return _board;
+    }
+
+    /** Return a move from the terminal.  Processes any intervening commands
+     *  as well. */
+    String getMove() {
+        return "";  // REPLACE WITH IMPLEMENTATION
+    }
+
+    /** Play this game, printing any transcript and other results. */
+    public void play() {
+        // FILL IN
+    }
+
+    /** Return time remaining for SIDE (in seconds). */
+    int timeRemaining(Side side) {
+        return 0; // REPLACE WITH IMPLEMENTATION
+    }
+
+    /** Return the random number generator for this game. */
+    Random getRandomSource() {
+        return _randomSource;
+    }
+
+    /** The official game board. */
+    private MutableBoard _board;
+
+    /** A source of random numbers, primed to deliver the same sequence in
+     *  any Game with the same seed value. */
+    private Random _randomSource;
+
+    // OTHER STUFF HERE
+
+}

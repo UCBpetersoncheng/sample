@@ -1,0 +1,28 @@
+package util;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+import static util.UnitTest.*;
+
+/** Tests of SimpleSet2D class.
+ *  @author Peterson Cheng */
+public class QuadTreeTest {
+
+    /** Test size. */
+    @Test
+    public void testSize() {
+        QuadTree<double[]> S = new QuadTree<double[]>(VIEW, 2);
+        assertEquals("Bad initial size", 0, S.size());
+        double[] p = pnt(0.0, 0.0);
+        S.add(PTS[0]);
+        assertEquals("Bad non-empty size", 1, S.size());
+        S.remove(PTS[0]);
+        assertEquals("Bad size after removal", 0, S.size());
+        for (double[] q : PTS) {
+            S.add(q);
+        }
+        assertEquals("Bad size after multiple insertions (1 duplicate)",
+                     PTS.length - 1, S.size());
+    }
+}

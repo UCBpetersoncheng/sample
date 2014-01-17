@@ -1,0 +1,33 @@
+﻿Build started 1/16/2014 11:07:09 PM.
+     1>Project "C:\Users\Peterson\Documents\Work\Internship Sample Code\C++\ClothSim 4-29 clickndrag\ClothSim Final Project\ClothSim Final Project.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Applications\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"glut-3.7.6-bin" /I"C:\Users\Peterson\Documents\Work\Internship Sample Code\C++\ClothSim 4-29 clickndrag\ClothSim Final Project\/glm" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Cloth.cpp main.cpp Particle.cpp Ball.cpp Shader.cpp Spring.cpp Triangle.cpp
+         Triangle.cpp
+         Spring.cpp
+         Shader.cpp
+     1>c:\users\peterson\documents\work\internship sample code\c++\clothsim 4-29 clickndrag\clothsim final project\shader.cpp(12): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\peterson\documents\work\internship sample code\c++\clothsim 4-29 clickndrag\clothsim final project\shader.cpp(19): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\peterson\documents\work\internship sample code\c++\clothsim 4-29 clickndrag\clothsim final project\shader.cpp(27): warning C4018: '<' : signed/unsigned mismatch
+         Ball.cpp
+         Particle.cpp
+         main.cpp
+         Cloth.cpp
+     1>c:\users\peterson\documents\work\internship sample code\c++\clothsim 4-29 clickndrag\clothsim final project\cloth.cpp(109): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\peterson\documents\work\internship sample code\c++\clothsim 4-29 clickndrag\clothsim final project\cloth.cpp(126): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\peterson\documents\work\internship sample code\c++\clothsim 4-29 clickndrag\clothsim final project\cloth.cpp(142): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\peterson\documents\work\internship sample code\c++\clothsim 4-29 clickndrag\clothsim final project\cloth.cpp(165): warning C4018: '<' : signed/unsigned mismatch
+         Generating Code...
+       Link:
+         C:\Applications\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Peterson\Documents\Work\Internship Sample Code\C++\ClothSim 4-29 clickndrag\Debug\ClothSim Final Project.exe" /INCREMENTAL /NOLOGO /LIBPATH:"glut-3.7.6-bin" /LIBPATH:"C:\Users\Peterson\Documents\Work\Internship Sample Code\C++\ClothSim 4-29 clickndrag\ClothSim Final Project\/glm" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Peterson\Documents\Work\Internship Sample Code\C++\ClothSim 4-29 clickndrag\Debug\ClothSim Final Project.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Peterson\Documents\Work\Internship Sample Code\C++\ClothSim 4-29 clickndrag\Debug\ClothSim Final Project.lib" /MACHINE:X86 Debug\Cloth.obj
+         Debug\main.obj
+         Debug\Particle.obj
+         Debug\Ball.obj
+         Debug\Shader.obj
+         Debug\Spring.obj
+         Debug\Triangle.obj
+         ClothSim Final Project.vcxproj -> C:\Users\Peterson\Documents\Work\Internship Sample Code\C++\ClothSim 4-29 clickndrag\Debug\ClothSim Final Project.exe
+     1>Done Building Project "C:\Users\Peterson\Documents\Work\Internship Sample Code\C++\ClothSim 4-29 clickndrag\ClothSim Final Project\ClothSim Final Project.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:07.40

@@ -1,0 +1,10 @@
+Simulation parameters:
+   Total simulated time: 100.0
+   Random seed: 42
+   Maximum detection radius: 5.0
+   Initial vertical location: 50.0
+   Initial horizontal velocity of vehicle: 10.0
+
+Reports:
+
+Final position: (1000.0, 50.0)@100.0

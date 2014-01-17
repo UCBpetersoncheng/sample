@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <omp.h>
+#include <nmmintrin.h>
+
+void sgemm( int m, int n, float *A, float *C)
+{
+    float *B = (float*) malloc(m*n*sizeof(float));
+    #pragma omp parallel
+    {
+    int i, j, k;
+    //int thread_ID = omp_get_thread_num();
+    //int numThreads = omp_get_num_threads();
+    //__m128 tpose, ikm, mulps, cijm, addps, tpose2,tpose3, tpose4;
+    __m128 kin, kjn, v_sum, mulps;
+    __m128 kin2, kjn2, v_sum2, mulps2;
+
+    //float t, t2,t3, t4;//,sum;
+    #pragma omp for schedule(static,1)
+    for(i=0; i<m*n;i++) {
+	j = i/m;
+	k = i%m;
+	kin = _mm_loadu_ps(A+i);
+	_mm_store_ss(B+j+k*n, kin);
+    }
+    #pragma omp for schedule(static, 1)
+    for(i=0; i < m; i++) {
+	for(j=0; j < m; j+=2) {
+	    v_sum = _mm_setzero_ps();
+	    for(k=0; k < n; k+= 16) {
+		kin = _mm_loadu_ps(B+k+i*n);	
+		kjn = _mm_loadu_ps(B+k+j*n);
+		mulps = _mm_mul_ps(kin, kjn);
+		v_sum = _mm_add_ps(v_sum, mulps);
+
+		kin = _mm_loadu_ps(B+k+4+i*n);	
+		kjn = _mm_loadu_ps(B+k+4+j*n);
+		mulps = _mm_mul_ps(kin, kjn);
+		v_sum = _mm_add_ps(v_sum, mulps);
+
+		kin = _mm_loadu_ps(B+k+8+i*n);	
+		kjn = _mm_loadu_ps(B+k+8+j*n);
+		mulps = _mm_mul_ps(kin, kjn);
+		v_sum = _mm_add_ps(v_sum, mulps);
+
+		kin = _mm_loadu_ps(B+k+12+i*n);	
+		kjn = _mm_loadu_ps(B+k+12+j*n);
+		mulps = _mm_mul_ps(kin, kjn);
+		v_sum = _mm_add_ps(v_sum, mulps);	
+	    }	    
+	    v_sum = _mm_hadd_ps(v_sum,v_sum);
+	    v_sum = _mm_hadd_ps(v_sum,v_sum);
+	    _mm_store_ss(C+i+j*m, v_sum);
+	    
+	    v_sum2 = _mm_setzero_ps();
+	    for(k=0; k < n; k+= 16) {
+		kin2 = _mm_loadu_ps(B+k+i*n);	
+		kjn2 = _mm_loadu_ps(B+k+(j+1)*n);
+		mulps2 = _mm_mul_ps(kin2, kjn2);
+		v_sum2 = _mm_add_ps(v_sum2, mulps2);
+
+		kin2 = _mm_loadu_ps(B+k+4+i*n);	
+		kjn2 = _mm_loadu_ps(B+k+4+(j+1)*n);
+		mulps2 = _mm_mul_ps(kin2, kjn2);
+		v_sum2 = _mm_add_ps(v_sum2, mulps2);
+
+		kin2 = _mm_loadu_ps(B+k+8+i*n);	
+		kjn2 = _mm_loadu_ps(B+k+8+(j+1)*n);
+		mulps2 = _mm_mul_ps(kin2, kjn2);
+		v_sum2 = _mm_add_ps(v_sum2, mulps2);
+
+		kin2 = _mm_loadu_ps(B+k+12+i*n);	
+		kjn2 = _mm_loadu_ps(B+k+12+(j+1)*n);
+		mulps2 = _mm_mul_ps(kin2, kjn2);
+		v_sum2 = _mm_add_ps(v_sum2, mulps2);	
+	    }	    
+	    v_sum2 = _mm_hadd_ps(v_sum2,v_sum2);
+	    v_sum2 = _mm_hadd_ps(v_sum2,v_sum2);
+	    _mm_store_ss(C+i+(j+1)*m, v_sum2);
+	}
+    }
+    }
+}

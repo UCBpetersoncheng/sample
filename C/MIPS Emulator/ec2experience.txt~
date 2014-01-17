@@ -1,0 +1,98 @@
+1.  (jurisdiction, 0)
+	
+    2.8852518461248065	maclay 
+    0.9091565569902544	judge 
+    0.8552883307612996	casino 
+    0.6629844800719538	viders 
+    0.5682724114902461	lsuc 
+    0.5566711137666123	_land_ 
+    0.40736194946396326	sovereignty 
+    0.39339539961966885	allegiance 
+    0.24853182143388883	namo 
+    0.2474365956349238	person 
+    0.22341887017385448	mexico 
+    0.2220164346592863	subhierarchy 
+    0.20275409712428147	forfeiture 
+    0.19671416428558106	commemorations 
+    0.18039794246448185	exercising 
+    0.1763534067519808	and 
+    0.17180573884353792	property 
+    0.17024282874217464	supercedes 
+    0.1490169028665911	parental 
+    0.14618467996345894	pending 
+    
+    (court order, 1)
+    
+    2.1302145834789528		workplaces of 
+    0.5366018664035026		videos as 
+    0.12750070638634678		you saying 
+    0.11982009727868811	    	you obeying 
+    0.11447506483274722	    	was severely 
+    0.03295868095391879		words the 
+    0.03058255624036555		usa and 
+    0.029241030394552774	was no 
+    0.019997776802545737	visitations the 
+    0.018755361650371893	you by 
+    0.017188882287258886	while i 
+    0.015249830562742124	was breaching 
+    0.0121439233427503		you like 
+    0.011626563732346721	you try 
+    0.007691452616363744	zach takes 
+    0.004087304058662942	vacation of 
+    0.002136747119038264	wishes adam 
+    0.0019496935543363602	wrong in 
+    0.001674219137302633	wants to 
+    0.0012990381058291833	way that 
+
+    (in my opinion, 2)
+
+    3.22363904152081		yummy in my 
+    3.1790338612694398		your relics and 
+    2.4368420630007677		your hash browns 
+    1.4040136995896777		your proclamations of 
+    1.1696804597433852		your opinion about 
+    0.13628753350947734		your points are 
+    0.08419446821687437		your mileage may 
+    0.08323187187435452	     	your old partner 
+    0.034183159798596124	your national guard 
+    0.006332859816526974	your situation the 
+    4.116023335361933E-4	your child s 
+    0.0				your best at 
+    0.0				your best based 
+    0.0				your best butt 
+    0.0				your best cash 
+    0.0				your best contacts 
+    0.0				your best dance 
+    0.0	   			your best defenses 
+    0.0				your best defensive 
+    0.0				your best definition 
+
+
+   <cluster num, target, func>	<mm:ss>	  Map Tasks	Reduce Tasks
+
+2. 5, j  , 0			21:37	  318 		32
+   5, co , 1			40:20	  321		32
+   5, imo, 2			50:32	  319		40
+   9, j  , 0			15:09	  331		43
+   9, co , 1			19:55	  322		40
+   9, imo, 2			27:59	  318		39
+
+3. 5 Cluster			133 secs/GB processed
+   9 Cluster			65 secs/GB processed
+
+
+4. An average of 31% increase vs. the ideal 44.44% increase.
+   Hadoop parallelizes fairly well, bringing fairly ideal 
+   performance increases in the real world. This speed up
+   is non-trivial and demonstrates the benefits of parallelism.
+
+
+5. $0.68 * 5 *2/17.82GB = ~ $0.38/GB for the 5 cluster
+   '' '' * 9 *1/'' '' ' = ~ $0.34/GB for the 9 cluster
+
+6. ($0.68 * 3 * 5) + ($0.68 * 2 * 9) = $22.44
+
+7. Yes. It allows for some pre-processing to be done (such that some workers do not just idle while
+   map completes). Since the combiner has no impact on the accuracy of the result, this results in 
+   an efficiency increase as the workers idle less.
+

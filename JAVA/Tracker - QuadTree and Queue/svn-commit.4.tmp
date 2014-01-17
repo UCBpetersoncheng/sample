@@ -1,0 +1,28 @@
+first commit
+--This line, and those below, will be ignored--
+
+_M   .
+M    tracker/Main.java
+A    tracker/Post.java
+M    tracker/UnitTest.java
+A    tracker/Vehicle.java
+M    util/Set2D.java
+M    util/Reporter.java
+A    util/QuadTree.bak
+A    util/QuadTree.bak2
+M    util/QuadTree.java
+M    util/QuadTreeTest.java
+M    util/SimpleSet2D.java
+M    util/UnitTest.java
+_M   tests
+A    tests/simple.std
+A    tests/distance.std
+A    tests/simple.trk
+A    tests/distance.trk
+A    tests/badtest0.out
+A    tests/big1Mil.std
+A    tests/badtest0.std
+A    tests/simple.out
+A    tests/distance.out
+A    tests/trivial.out
+M    staff-version

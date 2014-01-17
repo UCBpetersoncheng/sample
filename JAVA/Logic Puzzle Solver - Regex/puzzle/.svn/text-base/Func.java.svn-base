@@ -1,0 +1,16 @@
+package puzzle;
+
+/** Allows for anonymous functions.
+    @author Peterson Cheng. */
+
+interface Func {
+    /** Forces implementations to have a
+     *  function that returns true of false
+     *  based on triple T. */
+    boolean f(Triple t);
+
+    /** Forces implementations to have a
+     *  function that returns true or false
+     * based on triples T1, T2. */
+    boolean g(Triple t1, Triple t2);
+}

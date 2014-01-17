@@ -1,0 +1,25 @@
+
+# Usage: bash test-error F1 F2 ...
+#     Runs each file F through java puzzle.Solve and checks that it returns
+#     a non-zero exit code and produces no exception backtrace.
+#     Briefly reports results.  Exits normally if all tests pass, and
+#     otherwise exits with code 1.
+
+code=0
+rm -rf ERRS
+
+for f in $*; do
+    echo -n "$f: ";
+    if java -ea puzzle.Solve $f > /dev/null 2> ERRS; then
+	code=1; echo "ERROR (did not report error)";
+    elif grep '^Exception in thread "main"' ERRS >/dev/null; then
+	code=1; echo "ERROR (uncaught exception)";
+    elif grep -i error ERRS > /dev/null; then
+	echo OK;
+    else
+        echo "ERROR (missing error message)"
+    fi;
+    rm -rf ERRS;
+done;
+
+exit $code

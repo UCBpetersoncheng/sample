@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <omp.h>
+#include <nmmintrin.h>
+
+void sgemm( int m, int n, float *A, float *C)
+{
+    #pragma omp parallel
+    {
+    int i, j, k;
+    int thread_ID = omp_get_thread_num();
+    int numThreads = omp_get_num_threads();
+    __m128 tpose, ikm, mulps, cijm, addps, tpose2,tpose3, tpose4;
+    float t, t2,t3, t4,sum;
+    #pragma omp for schedule(static,1)
+    for(j=0; j < m; j+= 1) {
+	for(k=0; k < (n/4)*4; k+= 4) {
+	    t = A[j+k*m];
+	    t2 = A[j+(k+1)*m];
+	    t3 = A[j+(k+2)*m];
+	    t4 = A[j+(k+3)*m];
+	    tpose = _mm_load1_ps(A+j+(k+0)*m);
+	    tpose2 = _mm_load1_ps(A+j+(k+1)*m);
+	    tpose3 = _mm_load1_ps(A+j+(k+2)*m);
+	    tpose4 = _mm_load1_ps(A+j+(k+3)*m);
+	    for(i=0; i < (m/8)*8; i+= 8) {
+		cijm = _mm_loadu_ps(C+i+j*m);
+		ikm = _mm_loadu_ps(A+i+k*m);
+		mulps = _mm_mul_ps(ikm, tpose);
+		ikm = _mm_loadu_ps(A+i+(k+1)*m);
+		addps = _mm_add_ps(cijm, mulps);
+		mulps = _mm_mul_ps(ikm, tpose2);
+		ikm = _mm_loadu_ps(A+i+(k+2)*m);
+		addps = _mm_add_ps(addps, mulps);
+		mulps = _mm_mul_ps(ikm, tpose3);
+		ikm = _mm_loadu_ps(A+i+(k+3)*m);
+		addps = _mm_add_ps(addps, mulps);
+		mulps = _mm_mul_ps(ikm, tpose4);
+		addps = _mm_add_ps(addps, mulps);
+		_mm_storeu_ps(C+i+j*m, addps);
+
+		cijm = _mm_loadu_ps(C+i+4+j*m);
+		ikm = _mm_loadu_ps(A+i+4+k*m);
+		mulps = _mm_mul_ps(ikm, tpose);
+		ikm = _mm_loadu_ps(A+i+4+(k+1)*m);
+		addps = _mm_add_ps(cijm, mulps);
+		mulps = _mm_mul_ps(ikm, tpose2);
+		ikm = _mm_loadu_ps(A+i+4+(k+2)*m);
+		addps = _mm_add_ps(addps, mulps);
+		mulps = _mm_mul_ps(ikm, tpose3);
+		ikm = _mm_loadu_ps(A+i+4+(k+3)*m);
+		addps = _mm_add_ps(addps, mulps);
+		mulps = _mm_mul_ps(ikm, tpose4);
+		addps = _mm_add_ps(addps, mulps);
+		_mm_storeu_ps(C+i+4+j*m, addps);
+	    }
+	    for(i=(m/8)*8; i < m; i++) {
+		sum = 0;
+		sum += A[i+k*m] * t;
+		sum += A[i+(k+1)*m] * t2;
+		sum += A[i+(k+2)*m] * t3;
+		sum += A[i+(k+3)*m] * t4;
+		C[i+j*m] += sum;
+	    }
+	}
+	for(k=(n/4)*4; k < n; k++) {
+	    t = A[j+k*m];
+	    tpose = _mm_load1_ps(A+j+(k+0)*m);
+	    for(i=0; i < (m/8)*8; i+= 8) {
+		ikm = _mm_loadu_ps(A+i+k*m);
+		mulps = _mm_mul_ps(ikm, tpose);
+		cijm = _mm_loadu_ps(C+i+j*m);
+		addps = _mm_add_ps(cijm, mulps);
+		_mm_storeu_ps(C+i+j*m, addps);
+
+		ikm = _mm_loadu_ps(A+i+4+k*m);
+		mulps = _mm_mul_ps(ikm, tpose);
+		cijm = _mm_loadu_ps(C+i+4+j*m);
+		addps = _mm_add_ps(cijm, mulps);
+		_mm_storeu_ps(C+i+4+j*m, addps);
+	    }
+	    for(i=(m/8)*8; i < m; i++) {
+		ikm = _mm_load_ss(A+i+k*m);
+		mulps = _mm_mul_ss(cijm, tpose);
+		cijm = _mm_load_ss(C+i+j*m);
+		addps = _mm_add_ss(cijm, mulps);
+		_mm_store_ss(C+i+j*m, addps);
+	    }
+	}
+    }
+    }
+}

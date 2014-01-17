@@ -1,0 +1,43 @@
+For easy reference, here are the rotor wirings.  We invite you to consider 
+how to make use of this to make implementation of the rotors easy.
+
+First, as a mapping between input characters and output characters:
+
+Input      | A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+----------------------------------------------------------------
+Rotor I    | E K M F L G D Q V Z N T O W Y H X U S P A I B R C J
+Rotor II   | A J D K S I R U X B L H W T M C Q G Z N P Y F V O E
+Rotor III  | B D F H J L C P R T X V Z N Y E I W G A K M U S Q O
+Rotor IV   | E S O V P Z J A Y Q U I R H X L N F T G K D C M W B
+Rotor V    | V Z B R G I T Y U P S D N H L X A W M J Q O F E C K
+Rotor VI   | J P G V O U M F Y Q B E N H Z R D K A S X L I C T W
+Rotor VII  | N Z J H G R C X M Y S W B O U F A I V L P E K Q D T
+Rotor VIII | F K Q H T L X O C B J S P D Z R A M E W N I U Y G V
+Reflector B| Y R U H Q S L D P X N G O K M I Y B F Z C W V J A T
+Reflector C| F V P J I A O Y E D R Z X W G C T K U Q S B N M H L
+
+
+Here is the same information in cycle representation:
+
+Rotor I    | (AELTPHQXRU) (BKNW) (CMOY) (DFG) (IV) (JZ) (S)
+Rotor II   | (FIXVYOMW) (CDKLHUP) (ESZ) (BJ) (GR) (NT) (A) (Q)
+Rotor III  | (ABDHPEJT) (CFLVMZOYQIRWUKXSG) (N)
+Rotor IV   | (AEPLIYWCOXMRFZBSTGJQNH) (DV) (KU)
+Rotor V    | (AVOLDRWFIUQ)(BZKSMNHYC) (EGTJPX)
+Rotor VI   | (AJQDVLEOZWIYTS) (CGMNHFUX) (BPRK)
+Rotor VII  | (ANOUPFRIMBZTLWKSVEGCJYDHXQ)
+Rotor VIII | (AFLSETWUNDHOZVICQ) (BKJ) (GXY) (MPR)
+Reflector B| (AY) (BR) (CU) (DH) (EQ) (FS) (GL) (IP) (JX) (KN) (MO) (TZ) (VW)
+Reflector C| (AF) (BV) (CP) (DJ) (EI) (GO) (HY) (KR) (LZ) (MX) (NW) (TQ) (SU)
+
+
+Placement of the notches.
+
+Rotor I    | Q
+Rotor II   | E
+Rotor III  | V
+Rotor IV   | J
+Rotor V    | Z
+Rotor VI   | Z and M
+Rotor VII  | Z and M
+Rotor VIII | Z and M

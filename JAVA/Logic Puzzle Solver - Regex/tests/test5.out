@@ -1,0 +1,26 @@
+1. John is the carpenter.
+2. Bob does not live in the yellow house.
+3. The painter lives in the blue house.
+4. Mary does not live in the blue house.
+5. Mary does not live in the yellow house.
+6. There is a green house.
+7. The teacher lives around here.
+
+Q: Who is the teacher?
+A: Mary is the teacher.
+Q: Who lives in the yellow house?
+A: John lives in the yellow house.
+Q: What does Mary do?
+A: Mary is the teacher.
+Q: What does the occupant of the green house do?
+A: The teacher lives in the green house.
+Q: Where does John live?
+A: John lives in the yellow house.
+Q: Where does the teacher live?
+A: The teacher lives in the green house.
+Q: What do you know about the painter?
+A: Bob is the painter and lives in the blue house.
+Q: What do you know about Bob?
+A: Bob is the painter and lives in the blue house.
+Q: What do you know about the blue house?
+A: Bob is the painter and lives in the blue house.

@@ -1,0 +1,124 @@
+// Remove all comments that begin with //, and replace appropriately.
+// Feel free to modify ANYTHING in this file.
+
+package loa;
+
+import java.util.Iterator;
+
+import static loa.Piece.*;
+import static loa.Side.*;
+
+/** Represents the state of a game of Lines of Action. A Board is immutable.
+ *  Its MutableBoard subclass allows moves to be made.
+ *  @author
+ */
+class Board {
+
+    /** A Board whose initial contents are taken from
+     *  INITIALCONTENTS and in which it is PLAYER's move. The resulting
+     *  Board has
+     *        get(col, row) == INITIALCONTENTS[row-1][col-1]
+     *  Assumes that PLAYER is not null and INITIALCONTENTS is 8x8.
+     */
+    Board(Piece[][] initialContents, Side player) {
+        assert player != null && initialContents.length == 8;
+        // FILL IN
+    }
+
+    /** A new board in the standard initial position. */
+    Board() {
+        this(INITIAL_PIECES, BLACK);
+    }
+
+    /** A Board whose initial contents and state are copied from
+     *  BOARD. */
+    Board(Board board) {
+        // FILL IN
+    }
+
+    /** Return the contents of column C, row R, where 1 <= C,R <= 8,
+     *  where column 1 corresponds to column 'a' in the standard
+     *  notation. */
+    Piece get(int c, int r) {
+        assert 1 <= c && c <= 8 && 1 <= r && r <= 8;
+        return null; // REPLACE WITH IMPLEMENTATION
+    }
+
+    /** Return the contents of the square SQ.  SQ must be the
+     *  standard printed designation of a square (having the form cr,
+     *  where c is a letter from a-h and r is a digit from 1-8). */
+    Piece get(String sq) {
+        return get(col(sq), row(sq));
+    }
+
+    /** Return the column number (a value in the range 1-8) for SQ.
+     *  SQ is as for {@link get(String)}. */
+    static int col(String sq) {
+        return 0;  // REPLACE WITH IMPLEMENTATION
+    }
+
+    /** Return the row number (a value in the range 1-8) for SQ.
+     *  SQ is as for {@link get(String)}. */
+    static int row(String sq) {
+        return 0;  // REPLACE WITH IMPLEMENTATION
+    }
+
+    /** Return the Side that is currently next to move. */
+    Side turn() {
+        return null;   // REPLACE WITH IMPLEMENTATION.
+    }
+
+    /** Return true iff MOVE is legal for the player currently on move. */
+    boolean isLegal(Move move) {
+        return true;  // REPLACE WITH IMPLEMENTATION
+    }
+
+    /** Return a sequence of all legal from this position. */
+    Iterator<Move> legalMoves() {
+        return null;  // REPLACE WITH IMPLEMENTATION
+    }
+
+    /** Return true iff the game is currently over.  A game is over if
+     *  either player has all his pieces continguous. */
+    boolean gameOver() {
+        return piecesContiguous(BLACK) || piecesContiguous(WHITE);
+    }
+
+    /** Return true iff PLAYER's pieces are continguous. */
+    boolean piecesContiguous(Side player) {
+        return false;  // REPLACE WITH IMPLEMENTATION
+    }
+
+    /** Return the total number of moves that have been made (and not
+     *  retracted).  Each valid call to makeMove with a normal move increases
+     *  this number by 1. */
+    int movesMade() {
+        return 0; // REPLACE WITH IMPLEMENTATION
+    }
+
+    /** Returns move #K used to reach the current position, where
+     *  0 <= K < movesMade().  Does not include retracted moves. */
+    Move getMove(int k) {
+        return null; // REPLACE WITH IMPLEMENTATION
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();  // REPLACE WITH IMPLEMENTATION
+    }
+
+    // FIELDS AND OTHER METHODS GO HERE.
+
+    /** The standard initial configuration for Lines of Action. */
+    static final Piece[][] INITIAL_PIECES = {
+        { EMP, BP,  BP,  BP,  BP,  BP,  BP,  EMP },
+        { WP,  EMP, EMP, EMP, EMP, EMP, EMP, WP  },
+        { WP,  EMP, EMP, EMP, EMP, EMP, EMP, WP  },
+        { WP,  EMP, EMP, EMP, EMP, EMP, EMP, WP  },
+        { WP,  EMP, EMP, EMP, EMP, EMP, EMP, WP  },
+        { WP,  EMP, EMP, EMP, EMP, EMP, EMP, WP  },
+        { WP,  EMP, EMP, EMP, EMP, EMP, EMP, WP  },
+        { EMP, BP,  BP,  BP,  BP,  BP,  BP,  EMP }
+    };
+
+}

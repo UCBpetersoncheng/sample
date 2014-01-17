@@ -1,0 +1,93 @@
+This directory contains a skeleton for CS61B Project 2.
+
+Although some of what's in here might seem mysterious to you, try to
+understand what it's all for.  Don't be afraid to ask us about it.
+
+CONTENTS:
+
+ReadMe                  This file.
+
+Makefile                For you Unix users: this provides some simple
+                        compilation and testing support: make to compile,
+                        make clean to remove reproducible files, make check
+                        to compile and run Junit tests.
+
+test-tracker            A simple blackbox-testing script.
+
+staff-version           A file identifying the current version of the skeleton.
+                        See note on merging at the end.
+
+The util package (directory util):
+
+  Set2D.java              The API for your set-of-points class.  Don't
+                          change.
+
+  SimpleSet2D.java        An example of an implementation of Set2D.
+
+  QuadTree.java           The skeleton for your quadtree implementation.
+                          Don't add any public or protected methods 
+                          or constructors.  Otherwise, change at will.
+
+  UnitTest.java           Skeleton JUnit tests for the util package.
+                          Change at will.
+
+  Reporter.java           Utility for managing debugging and other
+                          informational output.
+
+  Makefile                Refers to Makefile in outer directory.
+
+The tracker package (directory tracker):
+
+  Main.java               Skeleton for the real main program.
+
+  Chooser.java            Provides a pseudo-random oracle for deciding which
+                          way the driver should turn. 
+
+  UnitTest.java           Skeleton for JUnit testing of the tracker package.
+
+  Makefile                Refers to Makefile in outer directory.
+
+The testing directory
+
+  trivial.trk, badtest0.trk
+                          Input files for blackbox testing.  REMINDER: 
+                          These are samples only.  They DON'T
+                          constitute adequate testing.
+
+  trivial.std             Output that is supposed to result from trivial.trk.
+
+
+
+MERGING UPDATES FROM A SKELETON
+-------------------------------
+
+When new versions of the skeleton come out (it's bound to happen), you
+can merge in changes to the skeleton with changes you've made by using
+the following procedure:
+
+1. Commit the current version of your project (hw commit).  Use hw
+   status to make sure everything you think is checked in really is.
+
+2. Look at the file staff-version in your directory, which should say
+   something like "proj2-N." (where N is some number).  This represents
+   the last version of the skeleton you merged in our checked out. 
+
+3. In your project 2 directory (NOT a subdirectory!) merge changes
+   with this command (on the instructional servers):
+
+       svn merge $STAFFREPOS/tags/proj2-N $STAFFREPOS/proj2
+
+4. You may have conflicts (places where both the skeleton and your
+   version have changed in conflicting ways).  SVN will prompt you to
+   resolve these (in the conflicted file, they will be marked with
+   >>>>> and <<<<).  You can do it later (postponing resolution until
+   after the merge), editing the file to what you want, and then use
+   the command
+
+         svn resolve --accept working FILE
+
+   (where FILE is a conflicted file) to tell SVN you've fixed the conflict
+   (svn status will tell you about remaining conflicted files).
+
+5. When any conflicts are removed, hw commit the changes caused by the
+   merge.

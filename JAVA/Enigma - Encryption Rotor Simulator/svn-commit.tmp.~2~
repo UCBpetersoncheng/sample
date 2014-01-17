@@ -1,0 +1,9 @@
+
+--This line, and those below, will be ignored--
+
+_M   .
+A    enigma/config.txt
+M    enigma/Machine.java
+M    enigma/Main.java
+M    enigma/Reflector.java
+M    enigma/Rotor.java

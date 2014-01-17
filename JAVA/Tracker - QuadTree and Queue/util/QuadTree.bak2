@@ -1,0 +1,339 @@
+package util;
+
+import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
+
+/** A Set2D implemented with a QuadTree.  The type argument, Point,
+ *  indicates the type of points contained in the set.  The rather
+ *  involved type parameter structure here allows you to extend
+ *  QuadPoint, and thus add additional data and methods to the points
+ *  you store.
+ *  @author Peterson Cheng
+ */
+public class QuadTree<Point> extends Set2D<Point> {
+
+    /** An empty set of Points that uses VIEW to extract position information.
+     *  The argument TRANSITIONSIZE has no externally
+     *  visible effect, but may affect performance.  It is intended to specify
+     *  the largest set Points that resides unsubdivided in a single node of
+     *  the tree.  While space-efficient, such nodes have slower search times
+     *  as their size increases.
+     *  */
+    public QuadTree(PointView<Point> view, int transitionSize) {
+        super(view);
+        _transitionSize = transitionSize;
+        _root = new ArrayList<Point>(_transitionSize + 1);
+
+    }
+
+    /* PUBLIC METHODS.  See Set2D.java for documentation */
+
+    /** Returns my transitionSize parameter (supplied to my constructor). */
+    public int getTransitionSize() {
+        return _transitionSize;
+    }
+
+    @Override
+    public int size() {
+        return _root.size();
+    }
+
+    @Override
+    public void add(Point p) {
+        if (contains(p)) {
+            //_numDups += 1;
+            return;
+        }
+
+        _root.add(p);
+    }
+
+    @Override
+    public void remove(Point p) {
+        _root.remove(p);
+    }
+
+    @Override
+    public boolean contains(Point p) {
+        for (Point item: _root) {
+            if (getView().equals(p, item)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Iterator<Point> iterator() {
+        return _root.iterator();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Iterator<Point> iterator(double xl, double yl,
+                                    double xu, double yu) {
+            return (Iterator<Point>) new QuadIterator(xl, yl,
+                                                      xu, yu);
+    }
+
+    /* END OF PUBLIC MEMBERS */
+
+    /** The maximum size for an unsubdivided node. */
+    private int _transitionSize;
+
+    /** The root of the tree. */
+    private ArrayList<Point> _root;
+
+    /** Holds the first quadrant.*/
+    private QuadTree<Point> _quad1;
+
+    /** Holds the second quadrant.*/
+    private QuadTree<Point> _quad2;
+
+    /** Holds the third quadrant. */
+    private QuadTree<Point> _quad3;
+
+    /** Holds the fourth quadrant. */
+    private QuadTree<Point> _quad4;
+
+    /** Holds the lower bound of the x-coordinate. */
+    private double _xlow = Double.NEGATIVE_INFINITY;
+
+    /** Holds the lower bound of the y-coordinate.*/
+    private double _ylow = Double.NEGATIVE_INFINITY;
+
+    /** Holds the upper bound of the x-coordinate. */
+    private double _xupp = Double.POSITIVE_INFINITY;
+
+    /** Holds the upper bound of the y-coordinate.*/
+    private double _yupp = Double.POSITIVE_INFINITY;
+
+    /** Holds the x coordinate of the center of this QuadTree. */
+    private double _xcen = 0;
+
+    /** Holds the y coordinate of the center of this QuadTree. */
+    private double _ycen = 0;
+
+    /** Is true if this QuadTree has children. Returns false if leaf.*/
+    private boolean _trans = false;
+
+    /** Is true if this QuadTree needs to be balanced. */
+    private boolean _isBal = true;
+
+    /** Holds the name. */
+    private String _s = "root";
+
+    /** Holds the number of duplicates. */
+    private int _numDups = 0;
+
+
+    /** Sets the lower bounds of THIS to A and the upper bound to B. */
+    private void setBounds(Point A, Point B) {
+        _xlow = x(A);
+        _ylow = y(A);
+        _xupp = x(B);
+        _yupp = y(B);
+    }
+
+    /** Sets the lower bounds of THIS to (X0, Y0) and the upper bounds
+      * to (X1, Y1) . */
+    private void setBounds(double x0, double y0, double x1, double y1) {
+        _xlow = x0;
+        _ylow = y0;
+        _xupp = x1;
+        _yupp = y1;
+    }
+
+    /** Returns the different quadrant depending on the int N. */
+    private QuadTree<Point> quadList(int n) {
+        switch(n) {
+        case 0:
+        case 1:
+            return _quad1;
+        case 2:
+            return _quad2;
+        case 3:
+            return _quad3;
+        case 4:
+            return _quad4;
+        default:
+            return _quad1;
+        }
+    }
+
+    /** Notes that this QuadTree is unbalanced. */
+    private void setBalance() {
+        _isBal = false;
+    }
+
+    /** Returns true if the point P is within the bounds of this QuadTree. */
+    private boolean isWithin(Point p) {
+        return isWithin(x(p), y(p), _xlow, _ylow, _xupp, _yupp);
+    }
+
+    /** Initializes the new QuadTrees and sets their boundaries. Will have
+     *  undefined behavior if this is called before setCenter.*/
+    private void initialize() {
+        _quad1 = new QuadTree<Point>(getView(), _transitionSize);
+        _quad2 = new QuadTree<Point>(getView(), _transitionSize);
+        _quad3 = new QuadTree<Point>(getView(), _transitionSize);
+        _quad4 = new QuadTree<Point>(getView(), _transitionSize);
+
+        _quad1.setBounds(_xcen, _ycen, _xupp, _yupp);
+        _quad2.setBounds(_xlow, _ycen, _xcen, _yupp);
+        _quad3.setBounds(_xlow, _ylow, _xcen, _ycen);
+        _quad4.setBounds(_xcen, _ylow, _xupp, _ycen);
+
+        _quad1.setBalance();
+        _quad2.setBalance();
+        _quad3.setBalance();
+        _quad4.setBalance();
+
+        _quad1.setName(_s + "_1");
+        _quad2.setName(_s + "_2");
+        _quad3.setName(_s + "_3");
+        _quad4.setName(_s + "_4");
+    }
+
+    /**Balances the QuadTree by setting the center near the average
+     *  of the point distributions. */
+    private void balance() {
+        double newXcen = 0;
+        double newYcen = 0;
+        for (Point p : _root) {
+            newXcen += x(p);
+            newYcen += y(p);
+        }
+        _xcen = newXcen / size();
+        _ycen = newYcen / size();
+        _isBal = true;
+    }
+
+    /** Transitions this QuadTree to a node. */
+    private void transition() {
+        initialize();
+        for (Point p: _root) {
+            int quadrant = quadrant(x(p), y(p), _xcen, _ycen);
+            quadList(quadrant).add(p);
+        }
+        _root = null;
+        _trans = true;
+
+    }
+
+    /** Sets the center of this QuadTree to X, and Y. */
+    private void setCenter(double x, double y) {
+        _xcen = x;
+        _ycen = y;
+    }
+
+    /** Labels this QuadTree S. */
+    private void setName(String s) {
+        _s = s;
+    }
+
+    /** Prints out this name. */
+    private void printName() {
+        System.out.print(_s);
+    }
+
+    /** Prints out this Quad Tree at indentation N. */
+    public void printQuad(int n) {
+        for (int i = 0; i < n; i++) {
+            System.out.print("\t");
+        }
+        System.out.printf(_s + "\t(%.1f, %.1f)\n", _xcen, _ycen);
+        if (_trans) {
+            _quad1.printQuad(n + 1);
+            _quad2.printQuad(n + 1);
+            _quad3.printQuad(n + 1);
+            _quad4.printQuad(n + 1);
+        } else {
+            for (Point p: _root) {
+                for (int i = 0; i < n; i++) {
+                    System.out.print("\t");
+                }
+                System.out.printf("[%.1f,%.1f]\n", x(p), y(p));
+            }
+        }
+    }
+
+    /** Returns an iterator for QuadTrees. */
+    private class QuadIterator implements Iterator {
+
+        /** Returns an iterator over a QuadTree Q of type T, bounded
+         *  by (XL,YL) and (XU, YU). Behavior depends on whether or
+         *  or not the tree transitioned TRANS or is a LEAF.*/
+        public QuadIterator(double xl, double yl,
+                            double xu, double yu) {
+            _xl = xl;
+            _xu = xu;
+            _yl = yl;
+            _yu = yu;
+            _i = _root.iterator();
+        }
+
+        @Override
+        public boolean hasNext() {
+            while (_i.hasNext()) {
+                _item = _i.next();
+                if (isWithin(x(_item), y(_item),
+                             _xl, _yl,
+                             _xu, _yu)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        @Override
+        public Point next() {
+            return _item;
+        }
+
+        @Override
+        public void remove() {
+        }
+
+        /** Holds the QuadTree. */
+        private Iterator<Point> _i;
+
+        private Point _item;
+
+        /** Holds the iterator of quad 1. */
+        private Iterator<Point> _q1;
+
+        /** Holds the iterator of quad 2. */
+        private Iterator<Point> _q2;
+
+        /** Holds the iteratr of quad 3. */
+        private Iterator<Point> _q3;
+
+        /** Holds the iterator of quad 4. */
+        private Iterator<Point> _q4;
+
+        /** Is true if the bounds of the arguments are in this QuadTree. */
+        private boolean _inside;
+
+        /** Holds the lower bound of the X coordinate. */
+        private double _xl;
+
+        /** Holds the lower bound of the Y coordinate. */
+        private double _yl;
+
+        /** Holds the upper bound of the X coordinate. */
+        private double _xu;
+
+        /** Holds the upper bound of the Y coordinate. */
+        private double _yu;
+
+        /** Is the index of the item that this Iterator is pointing to. */
+        private int _index;
+
+        /** Is true if it is a leaf. */
+        private boolean _leaf;
+    }
+}
+

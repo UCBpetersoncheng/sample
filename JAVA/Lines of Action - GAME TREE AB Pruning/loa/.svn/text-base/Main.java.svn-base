@@ -1,0 +1,39 @@
+// Remove all comments that begin with //, and replace appropriately.
+// Feel free to modify ANYTHING in this file.
+
+package loa;
+
+import ucb.util.CommandArgs;
+
+/** Main class of the Lines of Action program.
+ * @author
+ */
+public class Main {
+
+    /** The main Lines of Action.  ARGS are as described in the
+     *  project 3 handout:
+     *      [ --white ] [ --ai=N ] [ --seed=S ] [ --time=LIM ] \
+     *      [ --debug=D ] [ --display ]
+     */
+    public static void main(String... args) {
+        CommandArgs options =
+            new CommandArgs("", args);  // REPLACE WITH IMPLEMENTATION
+
+        if (!options.ok()) {
+            usage();
+        }
+
+        // ADD PROCESSING CODE HERE.
+
+    }
+
+
+    /** Print brief description of the command-line format. */
+    static void usage() {
+        // FIXME: REPLACE WITH SOMETHING TO PRINT BRIEF MESSAGE ABOUT HOW TO
+        // USE THIS PROGRAM.
+        System.exit(1);
+    }
+
+    // FIXME: OTHER METHODS AND FIELDS HERE, IF NEEDED
+}

@@ -1,0 +1,27 @@
+
+--This line, and those below, will be ignored--
+
+_M   .
+M    tracker/Main.java
+A    tracker/Post.java
+A    tracker/Vehicle.java
+A    util/QuadTree.bak
+A    util/QuadTree.bak2
+M    util/QuadTree.java
+M    util/QuadTreeTest.java
+M    util/SimpleSet2D.java
+M    util/UnitTest.java
+M    util/Set2D.java
+M    util/Reporter.java
+A    tests/badtest0.out
+A    tests/big1Mil.std
+A    tests/badtest0.std
+A    tests/simple.out
+A    tests/big1Mil.bak
+A    tests/distance.out
+A    tests/trivial.out
+A    tests/simple.std
+A    tests/distance.std
+A    tests/simple.trk
+A    tests/distance.trk
+M    staff-version

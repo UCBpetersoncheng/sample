@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <nmmintrin.h>
+#include <omp.h>
+
+void sgemm( int m, int n, float *A, float *C )
+{
+    #pragma omp parallel
+    {
+    int i,j,k;
+    __m128 transpose, ikm, mulps, cijm, addps;
+    int tID = omp_get_thread_num();
+    int numT = omp_get_num_threads();
+    #pragma omp for
+    for(j = 0; j < m; j++){	
+	for(k = 0; k < n; k+=2) {
+	    transpose = _mm_load1_ps(A+j+k*m);
+	    for (i = 0; i < (m/4)*4; i+= 4) {
+		ikm = _mm_loadu_ps(A+i+k*m);
+		mulps = _mm_mul_ps(ikm, transpose);
+		cijm = _mm_loadu_ps(C+i+j*m);
+		addps = _mm_add_ps(cijm, mulps);
+		_mm_storeu_ps(C+i+j*m, addps);
+	    }
+	    for (i = (m/4)*4; i < m; i++) {
+		cijm = _mm_load_ss(C+i+j*m);
+		ikm = _mm_load_ss(A+i+k*m);
+		mulps = _mm_mul_ss(ikm, transpose);
+		addps = _mm_add_ss(cijm, mulps);
+		_mm_store_ss(C+i+j*m, addps);
+	    }
+	    transpose = _mm_load1_ps(A+j+(k+1)*m);
+	    for (i = 0; i < (m/4)*4; i+= 4) {
+		ikm = _mm_loadu_ps(A+i+(k+1)*m);
+		mulps = _mm_mul_ps(ikm, transpose);
+		cijm = _mm_loadu_ps(C+i+j*m);
+		addps = _mm_add_ps(cijm, mulps);
+		_mm_storeu_ps(C+i+j*m, addps);
+	    }
+	    for (i = (m/4)*4; i < m; i++) {
+		cijm = _mm_load_ss(C+i+j*m);
+		ikm = _mm_load_ss(A+i+(k+1)*m);
+		mulps = _mm_mul_ss(ikm, transpose);
+		addps = _mm_add_ss(cijm, mulps);
+		_mm_store_ss(C+i+j*m, addps);
+	    }
+	}	
+    }
+    }
+}

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="#ffe2b4">
+
+    <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_centerVertical="true">
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/picker_text"
+                android:layout_alignParentStart="false" android:layout_alignParentTop="true">
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/picker_edit_text" android:gravity="center_horizontal" android:singleLine="true"/>
+
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/pickers"
+                android:layout_centerHorizontal="true" android:layout_below="@+id/picker_text">
+
+                <NumberPicker
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hour_picker"
+                        android:layout_weight="1"/>
+                <NumberPicker
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/minute_picker"
+                        android:layout_weight="1"/>
+                <NumberPicker
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/second_picker"
+                        android:layout_weight="1"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pickers"
+            android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Set"
+                    android:id="@+id/timer_set"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Cancel"
+                    android:layout_weight="1"
+                    android:id="@+id/timer_cancel"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:weightSum="10">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:measureWithLargestChild="false"
+            android:gravity="center_horizontal"
+            android:layout_weight="0.25">
+
+    <Chronometer
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40sp"
+            android:id="@+id/timestamp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="9.5">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="#0033AA"
+            android:id="@+id/buttons">
+
+            <RelativeLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:id="@+id/button_holder">
+
+
+            <!--<Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Undo"
+                    android:id="@+id/button_undo"
+                    android:singleLine="true"
+                    android:layout_alignParentBottom="true"
+
+                    />-->
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="2.5"
+            android:background="#ffd149"
+            android:id="@+id/events">
+
+            <ListView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/eventList"
+                    android:transcriptMode="alwaysScroll"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:layout_weight="0.25">
+
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Exit"
+                android:id="@+id/button_exit"
+                android:singleLine="true"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+

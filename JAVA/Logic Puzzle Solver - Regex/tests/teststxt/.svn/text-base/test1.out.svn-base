@@ -1,0 +1,13 @@
+1. John is not the carpenter.
+2. The plumber lives in the blue house.
+3. John lives in the yellow house.
+4. Mary does not live in the blue house.
+5. Tom lives around here.
+6. The architect lives around here.
+
+Q: What do you know about John?
+A: John is the architect and lives in the yellow house.
+Q: What do you know about Mary?
+A: Mary is the carpenter.
+Q: What do you know about Tom?
+A: Tom is the plumber and lives in the blue house.

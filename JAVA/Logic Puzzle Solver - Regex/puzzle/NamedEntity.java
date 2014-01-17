@@ -1,0 +1,181 @@
+package puzzle;
+import java.util.HashMap;
+import java.util.HashSet;
+
+/** A utility class bundling a name with a type of entity.
+ *  @author Peterson Cheng
+ */
+class NamedEntity {
+
+    /** A NamedEntity with name NAME and type TYPE. */
+    private NamedEntity(String name, EntityType type) {
+        _name = name;
+        _type = type;
+    }
+
+    /** Creates a NamedEntity, of name NAME and type TYPE. If
+        NAME exists, it must be of the same type, otherwise
+        it is an error (duplication of identifiers). If it is
+        of the same type, it returns the existing object. */
+    public static NamedEntity create(String name, EntityType type) {
+        String n = name;
+        if (_uniqueIDs.containsKey(n)) {
+            NamedEntity n0 = getID(n);
+            if (n0.getType() != type) {
+                String errmsg = "two identical identifiers used";
+                throw new PuzzleException(errmsg);
+            } else {
+                return n0;
+            }
+        } else {
+            if (valid(name)) {
+                String errmsg = "Reserved name: " + name;
+                throw new PuzzleException(errmsg);
+            }
+            NamedEntity n0 = new NamedEntity(name, type);
+            _uniqueIDs.put(n, n0);
+            return n0;
+        }
+    }
+
+    /** Returns true if the string S is a valid name. */
+    public static boolean valid(String s) {
+        String test = "Who There The occupant";
+        return test.contains(s);
+    }
+
+    /** Returns the name supplied to the constructor. */
+    String getName() {
+        return _name;
+    }
+
+    /** Returns the type supplied to the constructor. */
+    EntityType getType() {
+        return _type;
+    }
+
+    /** Returns the NamedEntity associated with the
+        identifier ID. */
+    public static NamedEntity getID(String id) {
+        return _uniqueIDs.get(id);
+    }
+
+    /** Return TRUE if getName() represents an unknown name returned
+     *  by makeName. */
+    boolean isAnonymous() {
+        return _name.contains("#");
+    }
+
+    /** Return TRUE if NAME represents an unknown name returned
+     *  by makeName. */
+    static boolean isAnonymous(String name) {
+        return name.contains("#");
+    }
+
+    /** Returns a new unknown ("anonymous") name prefixed with PREFIX. */
+    static String makeName(String prefix) {
+        _uid += 1;
+        return prefix + "#" + _uid;
+    }
+
+    /** Picks the one unambiguous answer. */
+    void pickKnown() {
+        int n = 0;
+        HashSet<Triple> ans = new HashSet<Triple>();
+        for (Triple t: hasNamedEntity()) {
+            if (!(t.isAnonymous())) {
+                n += 1;
+                ans.add(t);
+            }
+        }
+        if (n == 1) {
+            Triple t0 = ans.toArray(new Triple[0])[0];
+            NamedEntity[] n0 = {t0.getPerson(),
+                                t0.getOccupation(),
+                                t0.getColor()};
+            for (NamedEntity m: n0) {
+                for (Triple t: m.hasNamedEntity()) {
+                    if (t.isAnonymous()) {
+                        Triple.tList().remove(t);
+                    }
+                }
+            }
+        }
+    }
+
+    /** Returns true if this NamedEntity has no valid combinations. */
+    boolean isImpossible() {
+        HashSet<Triple> h = hasNamedEntity();
+        if (h.size() == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        NamedEntity e = (NamedEntity) other;
+        return e._name.equals(_name) && e._type == _type;
+    }
+
+    /** Returns a hashcode for me, allowing NamedEntities to be used
+        in HashSets and HashMaps. */
+    @Override
+    public int hashCode() {
+        return _name.hashCode() * _type.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return _name;
+    }
+
+    /** Returns the subset of valid triples that contain
+     *  this NamedEntity. */
+    public HashSet<Triple> hasNamedEntity() {
+        HasItem h = containItem(this);
+        HashSet<Triple> k = Triple.subset(h);
+        return k;
+    }
+
+    /** Returns the function H that contains N. */
+    public HasItem containItem(NamedEntity n) {
+        return new HasItem(n);
+    }
+
+    /** Resets static types. */
+    static void reset() {
+        _uniqueIDs.clear();
+    }
+
+    /** The name supplied to the constructor. */
+    private final String _name;
+
+    /** The type supplied to the constructor. */
+    private final EntityType _type;
+
+    /** Used to generate unique anonymous names. */
+    private static int _uid;
+
+    /** Used to maintain unique NamedEntity objects. */
+    private static HashMap<String, NamedEntity> _uniqueIDs =
+        new HashMap<String, NamedEntity>();
+
+    /** Returns triples that contain N. */
+    private static class HasItem implements Func {
+
+        /** Initializes a class such that f can call N. */
+        HasItem(NamedEntity n) {
+            _n = n;
+        }
+
+        /** Returns true if T contains N. */
+        public boolean f(Triple t) {
+            return t.contains(_n);
+        }
+
+        /** Is the NamedEntity N. */
+        private NamedEntity _n;
+    }
+
+}

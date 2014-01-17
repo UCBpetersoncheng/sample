@@ -1,0 +1,73 @@
+package puzzle;
+import static puzzle.EntityType.*;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import static puzzle.Triple.*;
+
+/** Tests the Triple Class.
+ * @author Peterson Cheng */
+
+public class TripleTest {
+
+
+    /** Tests the Triple Class. */
+    @Test
+    public void testEcho() {
+        String s0 = "John";
+        String s1 = "carpenter";
+        String s2 = "blue";
+
+        NamedEntity n0 = NamedEntity.create(s0, PERSON);
+        NamedEntity n1 = NamedEntity.create(s1, OCCUPATION);
+        NamedEntity n2 = NamedEntity.create(s2, COLOR);
+        Triple t0 = new Triple(n0, n1, n2);
+
+        Triple.add(n0);
+        Triple.add(n1);
+        Triple.add(n2);
+
+        assertEquals("bad PERSON load", t0.getPerson().toString(), s0);
+        assertEquals("bad OCCUPATION load", t0.getOccupation().toString(), s1);
+        assertEquals("bad COLOR store/load", t0.getColor().toString(), s2);
+        assertEquals("bad add() _pList", Triple.pList().size(), 1);
+        assertEquals("bad add() _oList", Triple.oList().size(), 1);
+        assertEquals("bad add() _cList", Triple.cList().size(), 1);
+
+        String s3 = "Mary";
+        String s4 = "plumber";
+        String s5 = "yellow";
+
+        NamedEntity n3 = NamedEntity.create(s3, PERSON);
+        NamedEntity n4 = NamedEntity.create(s4, OCCUPATION);
+        NamedEntity n5 = NamedEntity.create(s5, COLOR);
+
+        Triple.add(n3);
+        assertEquals("mismatched add() _p/_o", Triple.oList().size(), 1);
+        assertEquals("mismatched add() _p/_c", Triple.cList().size(), 1);
+        assertEquals("bad add() _pList 2", Triple.pList().size(), 2);
+        Triple.add(n4);
+        Triple.add(n5);
+        assertEquals("bad add() _pList 2B", Triple.pList().size(), 2);
+        assertEquals("bad add() _oList 2", Triple.oList().size(), 2);
+        assertEquals("bad ass() _cList 2", Triple.cList().size(), 2);
+
+        Triple.normalize();
+        assertEquals("normalize affects _pList", Triple.pList().size(), 2);
+        assertEquals("normalize affects _oList", Triple.oList().size(), 2);
+        assertEquals("normalize affects _cList", Triple.cList().size(), 2);
+
+        assertEquals("_tList not initially empty", Triple.tList().size(), 0);
+        Triple.populate();
+        assertEquals("populate() incorrectly", Triple.tList().size(), 8);
+
+        String s6 = "Tom";
+        String s7 = "architect";
+
+        NamedEntity n6 = NamedEntity.create(s6, PERSON);
+        NamedEntity n7 = NamedEntity.create(s7, OCCUPATION);
+        Triple.add(n6);
+        Triple.add(n7);
+        Triple.populate();
+        assertEquals("populate() incorrectly", Triple.tList().size(), 27);
+    }
+}
